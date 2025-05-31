@@ -33,3 +33,6 @@
 
 - name: Run playbook-server-install_and_start_mariadb.yml
   ansible.builtin.import_playbook: playbook-server-install_and_start_mariadb.yml
+
+- name: Run playbook-server-configure_a_mariadb_database.yml
+  ansible.builtin.import_playbook: playbook-server-configure_a_mariadb_database.yml
