@@ -1,0 +1,36 @@
+---
+- name: Gather facts
+  hosts: all
+  gather_facts: true
+  become: true
+
+- name: MariaDB snippet
+  hosts: mariadb-client
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: Prepare snippet with Postgres commands for the vagrant user
+      ansible.builtin.template:
+        src: mariadb_snippet.txt.j2
+        dest: /home/vagrant/mariadb_snippet.txt
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+
+    - name: Output the mariadb command for the example-user
+      ansible.builtin.debug:
+        msg: "Connection (from mariadb-client) as the example-user: mariadb -h {{ hostvars['mariadb-server']['ansible_default_ipv4']['address'] }} -u example-user -p"
+
+    - name: Output example-user credentials
+      ansible.builtin.debug:
+        msg: "The password for the example-user is 'atotallysecurepassword'"
+
+    - name: Output the mariadb command for the root user
+      ansible.builtin.debug:
+        msg: "Connection (from mariadb-client) as the root user (WHICH WILL FAIL!): mariadb -h {{ hostvars['mariadb-server']['ansible_default_ipv4']['address'] }} -u root -p"
+
+    - name: Output example-user credentials
+      ansible.builtin.debug:
+        msg: "The password for the example-user is 'asupertotallysecurePasswordthatshouldtotallybeinAnsibleVault'"
