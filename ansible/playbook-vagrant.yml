@@ -36,3 +36,10 @@
 
 - name: Run playbook-server-configure_a_mariadb_database.yml
   ansible.builtin.import_playbook: playbook-server-configure_a_mariadb_database.yml
+
+#
+# MariaDB Client
+#
+
+- name: Run playbook-client-mariadb_snippet.yml
+  ansible.builtin.import_playbook: playbook-client-mariadb_snippet.yml
