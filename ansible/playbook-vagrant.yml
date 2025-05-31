@@ -19,3 +19,10 @@
 
 - name: Run playbook-all_nodes-minimal_bashrc.yml
   ansible.builtin.import_playbook: playbook-all_nodes-minimal_bashrc.yml
+
+#
+# All nodes
+#
+
+- name: Run playbook-all_nodes-install_mariadb-client_package.yml
+  ansible.builtin.import_playbook: playbook-all_nodes-install_mariadb-client_package.yml
