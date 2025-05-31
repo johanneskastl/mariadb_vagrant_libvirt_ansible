@@ -1,0 +1,10 @@
+#
+# Connect to the database on the server using the example-user
+# Password: atotallysecurepassword
+mariadb -h {{ hostvars['mariadb-server']['ansible_default_ipv4']['address'] }} -u example-user -p
+
+#
+# Connections using the root user will fail,
+# as the user is only allowed from localhost
+# Password: asupertotallysecurePasswordthatshouldtotallybeinAnsibleVault
+mariadb -h {{ hostvars['mariadb-server']['ansible_default_ipv4']['address'] }} -u root -p
