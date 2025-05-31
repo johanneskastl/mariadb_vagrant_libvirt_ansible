@@ -26,3 +26,10 @@
 
 - name: Run playbook-all_nodes-install_mariadb-client_package.yml
   ansible.builtin.import_playbook: playbook-all_nodes-install_mariadb-client_package.yml
+
+#
+# MariaDB server
+#
+
+- name: Run playbook-server-install_and_start_mariadb.yml
+  ansible.builtin.import_playbook: playbook-server-install_and_start_mariadb.yml
