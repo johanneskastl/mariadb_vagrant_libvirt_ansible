@@ -1,0 +1,64 @@
+---
+- name: Gather facts
+  hosts: all
+  gather_facts: true
+  become: true
+
+- name: Configure a MariaDB database
+  hosts: mariadb-server
+  gather_facts: true
+  become: true
+
+  module_defaults:
+    community.mysql.mysql_user:
+      column_case_sensitive: true
+
+  pre_tasks:
+
+    - name: Install ACL package to work around "temporary files" errors in Ansible
+      ansible.builtin.package:
+        name: acl
+        state: present
+
+    - name: Install the python311-PyMySQL package
+      ansible.builtin.package:
+        name: python311-PyMySQL
+        state: present
+
+  tasks:
+
+    - name: Create new database example-database
+      community.mysql.mysql_db:
+        #
+        # No login details needed, as we have
+        # created the /root/.my.cnf file
+        #
+        name: example-database
+        state: present
+
+    - name: Create the example-user@localhost user
+      community.mysql.mysql_user:
+        #
+        # No login details needed, as we have
+        # created the /root/.my.cnf file
+        #
+        name: example-user
+        # This should totally not be in a playbook,
+        # but rather in Ansible Vault...
+        password: atotallysecurepassword
+        #
+        priv: 'example-database.*:ALL'
+
+    - name: Create the example-user@mariadb-client user
+      community.mysql.mysql_user:
+        #
+        # No login details needed, as we have
+        # created the /root/.my.cnf file
+        #
+        name: example-user
+        host: "{{ hostvars['mariadb-client']['ansible_default_ipv4']['address'] }}"
+        # This should totally not be in a playbook,
+        # but rather in Ansible Vault...
+        password: atotallysecurepassword
+        #
+        priv: 'example-database.*:ALL'
