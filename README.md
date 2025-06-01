@@ -21,7 +21,9 @@ Vagrantfile, please beware that this will break the Ansible provisioning.
    `mariadb_snippet.txt` file. Ansible also printed the commands and the
    passwords at the end of the provisioning.
 1. Running the command using the `example-user` will work, while the connection
-   using the `root` user will fail.
+   using the `root` user will fail. As is good security practice, the root user
+   is only allowed to connect from the server machine itself, using `localhost`.
+   Of course this can be changed, but this is left as an exercise for you... :-)
 
    Note: Contrary to the behaviour for PostgreSQL, the `root` user will be
    denied **after** the password prompt.
